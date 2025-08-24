@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Modul\Contract\ContractController;
 use App\Http\Controllers\Modul\CreditApplication\ApprovalController;
 use App\Http\Controllers\Modul\CreditApplication\CreditApplicationController;
 use Illuminate\Http\Request;
@@ -18,9 +19,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'role:Admin'], function () {
         Route::post('/credit-applications/{id}/approval', [ApprovalController::class, 'store']);
         Route::get('/credit-applications/{id}/approval', [ApprovalController::class, 'show']);
+
+        // Contract
+        Route::post('/contracts', [ContractController::class, 'store']);
+        Route::get('/contracts/{id}', [ContractController::class, 'show']);
     });
 
     Route::get('/vehicles', [App\Http\Controllers\Data\VehicleController::class, 'index']);
     Route::post('/credit-applications', [CreditApplicationController::class, 'store']);
     Route::get('/credit-applications/me', [CreditApplicationController::class, 'myApplications']);
+
 });
