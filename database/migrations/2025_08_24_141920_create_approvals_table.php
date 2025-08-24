@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('decision', ['approved', 'rejected']);
             $table->dateTime('decided_at');
             $table->text('notes')->nullable();
+            $table->timestamps();
         });
     }
 

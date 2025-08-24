@@ -147,6 +147,20 @@
             ]
         },
         {
+            "name": "admin",
+            "item": [
+                {
+                    "name": "credit-applications",
+                    "item": [
+                        {
+                            "name": "",
+                            "item": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "vehicles",
             "item": [
                 {
@@ -176,6 +190,73 @@
                             ]
                         }
                     }
+                }
+            ]
+        },
+        {
+            "name": "credit-applications",
+            "item": [
+                {
+                    "name": "[POST] api/credit-applications",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/credit-applications",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "credit-applications"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "me",
+                    "item": [
+                        {
+                            "name": "[GET] api/credit-applications/me",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/credit-applications/me",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "credit-applications",
+                                        "me"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         }
