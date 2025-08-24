@@ -9,8 +9,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [App\Http\Controllers\Auth\Authenticate::class, 'login']);
     Route::post('/logout', [App\Http\Controllers\Auth\Authenticate::class, 'logout'])->middleware('auth:sanctum', 'token.expired');
     Route::get('/user', [App\Http\Controllers\Auth\Authenticate::class, 'user'])->middleware('auth:sanctum', 'token.expired');
+
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    // Route::apiResource('vehicles', App\Http\Controllers\Data\VehicleController::class);
+    Route::get('/vehicles', [App\Http\Controllers\Data\VehicleController::class, 'index']);
 
 });

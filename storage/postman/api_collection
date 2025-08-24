@@ -145,6 +145,39 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "vehicles",
+            "item": [
+                {
+                    "name": "[GET] api/vehicles",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/vehicles",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "vehicles"
+                            ]
+                        }
+                    }
+                }
+            ]
         }
     ],
     "variable": [
