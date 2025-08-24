@@ -52,4 +52,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    // 🔗 Relasi ke credit applications (sebagai customer)
+    public function creditApplications()
+    {
+        return $this->hasMany(CreditApplication::class, 'customer_id');
+    }
+
+    // 🔗 Relasi ke approvals (sebagai approver)
+    public function approvals()
+    {
+        return $this->hasMany(Approval::class, 'approver_id');
+    }
+
+    // 🔗 Relasi ke installment payments (sebagai payer)
+    public function payments()
+    {
+        return $this->hasMany(InstallmentPayment::class, 'payer_id');
+    }
 }
