@@ -18,33 +18,53 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    // Admin
-    Route::group(['prefix' => 'admin', 'middleware' => 'role:Admin'], function () {
-        // Credit Application Approval
-        Route::post('/credit-applications/{id}/approval', [ApprovalController::class, 'store']);
-        Route::get('/credit-applications/{id}/approval', [ApprovalController::class, 'show']);
-
-        // Contract
-        Route::post('/contracts', [ContractController::class, 'store']);
-        Route::get('/contracts/{id}', [ContractController::class, 'show']);
-    });
-
     // Data Vehicle
     Route::get('/vehicles', [App\Http\Controllers\Data\VehicleController::class, 'index']);
 
+    // Admin
+    Route::group(['prefix' => 'admin', 'middleware' => 'role:Admin'], function () {
+
+        // Credit Application Approval
+        Route::prefix('credit-applications')->group(function () {
+            Route::prefix('approval')->group(function () {
+                Route::get('/', [ApprovalController::class, 'index']);
+                Route::get('/{id}', [ApprovalController::class, 'show']);
+                Route::post('/{id}', [ApprovalController::class, 'store']);
+            });
+        });
+
+        // Contract
+        Route::prefix('contracts')->group(function () {
+            Route::get('/', [ContractController::class, 'index']);
+            Route::get('/', [ContractController::class, 'store']);
+            Route::get('/{id}', [ContractController::class, 'show']);
+        });
+    });
+
+
     // Credit Application
-    Route::post('/credit-applications', [CreditApplicationController::class, 'store']);
-    Route::get('/credit-applications/me', [CreditApplicationController::class, 'myApplications']);
+    Route::prefix('credit-applications')->group(function () {
+        Route::post('/', [CreditApplicationController::class, 'store']);
+        Route::get('/me', [CreditApplicationController::class, 'myApplications']);
+    });
+
 
     // Contract
-    Route::get('/my-contracts', [MyContractController::class, 'index']);
-    Route::get('/my-contracts/{id}', [MyContractController::class, 'show']);
+    Route::prefix('contracts')->group(function () {
+        Route::get('/', [MyContractController::class, 'index']);
+        Route::get('/{id}', [MyContractController::class, 'show']);
+    });
 
     // Installment
-    Route::get('/installments', [InstallmentController::class, 'index']);
-    Route::get('/installments/{id}', [InstallmentController::class, 'show']);
+    Route::prefix('installments')->group(function () {
+        Route::get('/', [InstallmentController::class, 'index']);
+        Route::get('/{id}', [InstallmentController::class, 'show']);
 
-    // Payment
-    Route::get('/installments/{installmentId}/payments', [InstallmentPaymentController::class, 'show']);
-    Route::post('/installments/{installmentId}/payments', [InstallmentPaymentController::class, 'store']);
+        // Payment
+        Route::prefix('payments')->group(function () {
+            Route::get('/{installmentId}', [InstallmentPaymentController::class, 'show']);
+            Route::post('/{installmentId}', [InstallmentPaymentController::class, 'store']);
+        });
+    });
+
 });
