@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->integer('installment_no'); // 1..tenor
             $table->date('due_date');
-            $table->decimal('amount_due', 15, 2);
+            $table->integer('amount_due');
             $table->enum('status', ['unpaid', 'partial', 'paid', 'overdue'])->default('unpaid');
 
             $table->timestamps();

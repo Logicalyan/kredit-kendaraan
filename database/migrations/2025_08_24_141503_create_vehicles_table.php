@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('brand');
             $table->string('model');
             $table->year('year');
-            $table->decimal('otr_price', 15, 2);
+            $table->integer('otr_price');
             $table->timestamps();
         });
     }

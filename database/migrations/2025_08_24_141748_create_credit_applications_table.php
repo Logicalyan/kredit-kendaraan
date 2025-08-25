@@ -19,11 +19,11 @@ return new class extends Migration
             $table->date('application_date');
             $table->enum('status', ['draft', 'submitted', 'approved', 'rejected', 'canceled'])->default('draft');
 
-            $table->decimal('dp_amount', 15, 2);
-            $table->decimal('loan_amount', 15, 2);
+            $table->integer('dp_amount');
+            $table->integer('loan_amount');
             $table->integer('tenor_months');
             $table->decimal('interest_rate', 5, 2);
-            $table->decimal('monthly_installment', 15, 2)->nullable();
+            $table->integer('monthly_installment');
 
             $table->text('notes')->nullable();
 

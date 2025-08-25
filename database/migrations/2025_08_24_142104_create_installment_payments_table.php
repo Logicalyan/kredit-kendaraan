@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('payer_id')->constrained('users')->onDelete('cascade');
 
             $table->dateTime('paid_at');
-            $table->decimal('amount_paid', 15, 2);
+            $table->integer('amount_paid');
             $table->string('method'); // transfer, va, cash, ewallet
             $table->string('reference_number')->nullable();
             $table->text('notes')->nullable();
