@@ -36,4 +36,30 @@ class CreditApplication extends Model
     {
         return $this->hasOne(Contract::class, 'application_id');
     }
+
+    protected $appends = [
+        'dp_amount_formatted',
+        'loan_amount_formatted',
+        'monthly_installment_formatted',
+    ];
+
+    private function formatRupiah($value) {
+        return 'Rp ' . number_format($value ?? 0, 0, ',', '.');
+    }
+
+    // ✅ Accessors untuk formatting
+    public function getDpAmountFormattedAttribute()
+    {
+        return $this->formatRupiah($this->attributes['dp_amount'] ?? 0);
+    }
+
+    public function getLoanAmountFormattedAttribute()
+    {
+        return $this->formatRupiah($this->attributes['loan_amount'] ?? 0);
+    }
+
+    public function getMonthlyInstallmentFormattedAttribute()
+    {
+        return $this->formatRupiah($this->attributes['monthly_installment'] ?? 0);
+    }
 }

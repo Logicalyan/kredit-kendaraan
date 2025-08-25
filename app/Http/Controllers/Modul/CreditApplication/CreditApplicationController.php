@@ -18,8 +18,7 @@ class CreditApplicationController extends Controller
         $request->validate([
             'vehicle_id'     => 'required|exists:vehicles,id',
             'dp_amount'      => 'required|numeric|min:0',
-            'tenor_months'   => 'required|in:12,24,36',
-            'interest_rate'  => 'required|numeric|min:0',
+            'tenor_months'   => 'required|integer|min:1|max:60',
             'notes'          => 'nullable|string',
         ]);
 
@@ -31,29 +30,36 @@ class CreditApplicationController extends Controller
         // hitung pinjaman
         $loanAmount = $vehicle->otr_price - $request->dp_amount;
 
-        // hitung cicilan flat rate
-        $interestPerYear = $loanAmount * ($request->interest_rate / 100);
+        //hitung bunga otomatis (0.5% per bulan)
+        $interestRate = $request->tenor_months * 0.5;
+
+        // total bunga setahun → loanAmount * (interestRate / 100)
+        $interestPerYear = $loanAmount * ($interestRate / 100);
         $totalInterest   = $interestPerYear * ($request->tenor_months / 12);
+
+        // total pembayaran per bulan
         $totalPayment    = $loanAmount + $totalInterest;
-        $monthlyInstallment = $totalPayment / $request->tenor_months;
 
-        $application = CreditApplication::create([
-            'customer_id'       => $user->id,
-            'vehicle_id'        => $vehicle->id,
-            'application_date'  => now(),
-            'status'            => 'submitted',
-            'dp_amount'         => $request->dp_amount,
-            'loan_amount'       => $loanAmount,
-            'tenor_months'      => $request->tenor_months,
-            'interest_rate'     => $request->interest_rate,
-            'monthly_installment' => $monthlyInstallment,
-            'notes'             => $request->notes,
-        ]);
+        // hitung cicilan
+        $monthlyInstallment = round($totalPayment / $request->tenor_months, 0);
 
-        return response()->json([
-            'message' => 'Pengajuan kredit berhasil diajukan.',
-            'data'    => $application
-        ]);
+            $application = CreditApplication::create([
+                'customer_id'       => $user->id,
+                'vehicle_id'        => $vehicle->id,
+                'application_date'  => now(),
+                'status'            => 'submitted',
+                'dp_amount'         => $request->dp_amount,
+                'loan_amount'       => $loanAmount,
+                'tenor_months'      => $request->tenor_months,
+                'interest_rate'     => $interestRate,
+                'monthly_installment' => $monthlyInstallment,
+                'notes'             => $request->notes,
+            ]);
+
+            return response()->json([
+                'message' => 'Pengajuan kredit berhasil diajukan.',
+                'data'    => $application
+            ]);
     }
 
     /**
